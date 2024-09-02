@@ -1,5 +1,5 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.db import models # type: ignore
+from django.contrib.auth.models import AbstractUser # type: ignore
 
 # Custom User Model
 class CustomUser(AbstractUser):
@@ -14,6 +14,7 @@ class CustomUser(AbstractUser):
 # Category Model
 class Category(models.Model):
     name = models.CharField(max_length=200)
+    image = models.CharField(max_length=800)
     description = models.TextField()
 
     def __str__(self):
@@ -27,6 +28,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     img = models.CharField(max_length=900, default='')
     stock = models.IntegerField()
+    featured = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

@@ -1,6 +1,6 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import (
+from django.urls import path, include # type: ignore
+from rest_framework.routers import DefaultRouter # type: ignore
+from rest_framework_simplejwt.views import ( # type: ignore
     TokenObtainPairView,
     TokenRefreshView,
 )

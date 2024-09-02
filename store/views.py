@@ -1,9 +1,9 @@
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets # type: ignore
+from rest_framework.permissions import IsAuthenticated # type: ignore
 from .models import Product, Category, Order, CustomUser
 from .serializers import ProductSerializer, CategorySerializer, OrderSerializer, RegisterSerializer, UserSerializer
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework import generics
+from rest_framework_simplejwt.authentication import JWTAuthentication # type: ignore
+from rest_framework import generics # type: ignore
 from .permission import IsAdminOrReadOnly
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -15,6 +15,18 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     authentication_classes = [JWTAuthentication]
     permission_classes = [ IsAdminOrReadOnly]
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+    
+        featured = self.request.query_params.get('featured')
+        
+        if featured is not None:
+            is_featured = featured.lower() in ['true', '1', 'yes']
+            queryset = queryset.filter(featured=is_featured)
+        
+        return queryset
+
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer

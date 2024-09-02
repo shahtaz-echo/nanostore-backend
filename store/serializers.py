@@ -1,5 +1,11 @@
-from rest_framework import serializers
+from rest_framework import serializers # type: ignore
 from .models import Product, Category, Order, OrderItem, CustomUser
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'username', 'email', 'fullname', 'phone', 'address', 'role')
+
 # Register Serializer
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -79,8 +85,3 @@ class OrderSerializer(serializers.ModelSerializer):
             OrderItem.objects.create(order=order, **item_data)
 
         return order
-    
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ('id', 'username', 'email', 'fullname', 'phone', 'address', 'role')
